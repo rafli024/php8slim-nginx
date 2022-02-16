@@ -1,0 +1,11 @@
+deploy-development:
+  stage : development
+  only :
+    - master
+  environment: development
+  before-script:
+  - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+  script:
+  - composer install && composer update
+  - docker build -t $IMAGE_NAME:$IMAGE_VERSION .
+  - docker push $IMAGE_NAME:$IMAGE_VERSION
